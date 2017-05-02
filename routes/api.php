@@ -16,3 +16,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('evaluate', function () {
+
+    $id = Input::get("id");
+    $content = Input::get("content");
+
+});
+
+Route::post('createExam', "ExamController@add");
