@@ -15,9 +15,9 @@ class Exams extends Migration
     {
         Schema::create('exams', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('exam');
-            $table->string('solution');
+            $table->string('name')->unique();
+            //$table->string('exam');
+            //$table->string('solution');
             $table->rememberToken();
             $table->timestamps();
         });

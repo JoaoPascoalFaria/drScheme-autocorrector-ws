@@ -17,11 +17,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('evaluate', function () {
-
-    $id = Input::get("id");
-    $content = Input::get("content");
-
-});
+Route::post('evaluate', "ExamController@testExam");
 
 Route::post('createExam', "ExamController@add");
+
+Route::post('deleteExam', "ExamController@delete");
+
+Route::post('updateExam', "ExamController@update");
+
+Route::post('getExam', "ExamController@get");

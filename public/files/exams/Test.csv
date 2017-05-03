@@ -1,0 +1,26 @@
+(display (round (* 1000.0 (mede-tempo 1 1))));2;1
+(display (round (* 1000.0 (mede-tempo 10 3))));2;1
+(display (round (* 1000.0 (mede-tempo 11 2.4))));2;1
+(display (round (* 1000.0 (mede-tempo 14 4))));2;1
+(display (round (* 1000.0 (mede-tempo 23 2.34))));2;1
+(display (round (* 1000.0 (mede-tempo-estilo 1 1))));4;2
+(display (round (* 1000.0 (mede-tempo-estilo 13 2))));4;2
+(display (round (* 1000.0 (mede-tempo-estilo 7 3))));4;2
+(display (round (* 1000.0 (mede-tempo-estilo 20 4))));4;2
+(display (round (* 1000.0 (mede-tempo-estilo 12 0))));4;2
+(letrec ((mede-tempo-estilo (lambda (piscinas estilo) (/ (* piscinas 25) (case estilo ((1) 1.5) ((2) 2.0)   ((3) 2.5) (else 3.0))))))(round (* 1000.0 (treino-estilos 3121))));5;3
+(letrec ((mede-tempo-estilo (lambda (piscinas estilo) (/ (* piscinas 25) (case estilo ((1) 1.5) ((2) 2.0)   ((3) 2.5) (else 3.0))))))(round (* 1000.0 (treino-estilos 111111111))));5;3
+(letrec ((mede-tempo-estilo (lambda (piscinas estilo) (/ (* piscinas 25) (case estilo ((1) 1.5) ((2) 2.0)   ((3) 2.5) (else 3.0))))))(round (* 1000.0 (treino-estilos 3122321123221123))));5;3
+(letrec ((mede-tempo-estilo (lambda (piscinas estilo) (/ (* piscinas 25) (case estilo ((1) 1.5) ((2) 2.0)   ((3) 2.5) (else 3.0))))))(round (* 1000.0 (treino-estilos 128456287346287))));5;3
+(letrec ((mede-tempo-estilo (lambda (piscinas estilo) (/ (* piscinas 25) (case estilo ((1) 1.5) ((2) 2.0)   ((3) 2.5) (else 3.0))))))(round (* 1000.0 (treino-estilos 3894628345723))));5;3
+(letrec ((mede-tempo-estilo (lambda (piscinas estilo) (/ (* piscinas 25) (case estilo ((1) 1.5) ((2) 2.0)   ((3) 2.5) (else 3.0))))))(round (* 1000.0 (treino-estilos 23765478235476))));5;3
+(display (round (* 1000.0 (custo-da-viagem 500 1274))));4;4
+(display (round (* 1000.0 (custo-da-viagem 501 1274))));4;4
+(display (round (* 1000.0 (custo-da-viagem 539 1274))));4;4
+(display (round (* 1000.0 (custo-da-viagem 540 1274))));4;4
+(display (round (* 1000.0 (custo-da-viagem 549 1274))));4;4
+(display (altera 28756 11111));4;5
+(display (altera 28756 10101));4;5
+(display (altera 28756 100));4;5
+(display (altera 28756 111111111));4;5
+(display (altera 2875624726358724687485 11010101001010101111));4;5
