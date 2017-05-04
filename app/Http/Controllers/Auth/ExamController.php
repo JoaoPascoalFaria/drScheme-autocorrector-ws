@@ -19,14 +19,16 @@ class ExamController extends Controller
         $examb = $request->input("exam");
         $solution = $request->input("solution");
 
-        $exam_response = file_put_contents( "files/exams/".$name.".csv", $examb, LOCK_EX );
-        $solution_response = file_put_contents( "files/exams/".$name.".scm", $solution, LOCK_EX );
-
         $exam = new Exam();
         $exam->name = $name;
+        $exam->examHash = hash( "md5", $examb);
+        $exam->solutionHash = hash( "md5", $solution);
         $exam->save();
 
-        return response('Exam added to database', 200)->header('Content-Type', 'text/plain');
+        $exam_response = file_put_contents( "files/exams/".$exam->id.".csv", $examb, LOCK_EX );
+        $solution_response = file_put_contents( "files/exams/".$exam->id.".scm", $solution, LOCK_EX );
+
+        return response('Exam added to database with id '.$exam->id, 200)->header('Content-Type', 'text/plain');
     }
 
     /**
@@ -39,6 +41,8 @@ class ExamController extends Controller
         $id = $request->input("id");
 
         Exam::destroy($id);
+
+        //TODO delete all files related to exam?
 
         return response('Exam deleted from database', 200)->header('Content-Type', 'text/plain');
     }
@@ -56,13 +60,31 @@ class ExamController extends Controller
         $examb = $request->input("exam");
         $solution = $request->input("solution");
 
-        $exam = new Exam($id);
+        $exam = Exam::find($id);
+        if ($exam === null) {
+            return response("Error at testExam in ExamController.php line 95", 200)->header('Content-Type', 'text/plain');
+        }
+
+        $response = "Exam updated.";
+
         $exam->name = $name;
-        $exam->exam = $examb;
-        $exam->solution = $solution;
+        $newEHash = hash("md5",$examb);
+        $newSHash = hash("md5",$solution);
+        if( $exam->examHash != $newEHash ) {
+
+            $response .= " Updated exam.";
+            $exam->examHash = $newEHash;
+            $exam_response = file_put_contents( "files/exams/".$id.".csv", $examb, LOCK_EX );
+        }
+        if( $exam->solutionHash != $newSHash ) {
+
+            $response .= " Updated solution.";
+            $exam->solutionHash = $newSHash;
+            $solution_response = file_put_contents( "files/exams/".$id.".scm", $solution, LOCK_EX );
+        }
         $exam->save();
 
-        return response('Exam updated', 200)->header('Content-Type', 'text/plain');
+        return response($response, 200)->header('Content-Type', 'text/plain');
     }
 
 
@@ -75,9 +97,15 @@ class ExamController extends Controller
 
         $id = $request->input("id");
 
-        $exam = new Exam($id);
+        $exam = Exam::find($id);
+        if ($exam === null) {
+            return response("Error at testExam in ExamController.php line 95", 200)->header('Content-Type', 'text/plain');
+        }
 
-        return response($exam)->header('Content-Type', 'text/plain');
+        $json = array( "id"=>$exam->id, "name"=>$exam->name, "exam"=>file_get_contents('files/exams/'.$exam->id.'.csv') ,"solution"=>file_get_contents('files/exams/'.$exam->id.'.scm') );
+
+
+        return response(json_encode($json))->header('Content-Type', 'text/plain');
     }
 
 
@@ -93,16 +121,34 @@ class ExamController extends Controller
         $student = $request->input("student");
         $content = $request->input("response");
 
-
-        $exam = Exam::where('id', '=', $id);
+        /*
+        $exam = Exam::find($id);
         if ($exam === null) {
-            return response("Error at testExam in ExamController.php line 95", 8192)->header('Content-Type', 'text/plain');
+            return response("Error at testExam in ExamController.php line 95", 200)->header('Content-Type', 'text/plain');
         }
 
-        $content_response = file_put_contents( "files/tests/".$exam->name."_".$student.".scm", $content, LOCK_EX );
+        $content_response = file_put_contents( "files/tests/".$exam->id."_".$student.".scm", $content, LOCK_EX );
+        $output = shell_exec('java -jar java/testExam.jar files/exams/'.$exam->id." files/tests/".$exam->id."_".$student.".scm single");
+        */
+        $content_response = file_put_contents( "files/tests/".$id."_".$student.".scm", $content, LOCK_EX );
+        $output = shell_exec('java -jar java/testExam.jar files/exams/'.$id." files/tests/".$id."_".$student.".scm single");
 
-        $output = shell_exec('java -jar testExam.jar files/exams/'.$exam->name." files/tests/".$exam->name."_".$student.".scm single");
+        return response($output)->header('Content-Type', 'multipart/form-data');
+    }
 
-        return response($output, 8192)->header('Content-Type', 'text/plain');
+    /**
+     * @return mixed
+     */
+    public function listExams() {
+
+        $entries = Exam::all();
+        $exams = array();
+        foreach( $entries as $exam ) {
+
+            $exam = array( "id"=>$exam->id, "name"=>$exam->name);
+            $exams[] = $exam;
+        }
+
+        return response(json_encode($exams))->header('Content-Type', 'multipart/form-data');
     }
 }

@@ -26,3 +26,5 @@ Route::post('deleteExam', "ExamController@delete");
 Route::post('updateExam', "ExamController@update");
 
 Route::post('getExam', "ExamController@get");
+
+Route::post('getExams', "ExamController@listExams");

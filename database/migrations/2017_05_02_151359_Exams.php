@@ -16,8 +16,8 @@ class Exams extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            //$table->string('exam');
-            //$table->string('solution');
+            $table->string('examHash');
+            $table->string('solutionHash');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ class Exams extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('exams');
     }
 }
