@@ -14,3 +14,15 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('play/exam', function (){
+    return view('minigame');
+});
+
+Route::get('dashboard', function (){
+    return view('dashboard');
+});
+
+Route::get('{something}', function ($something){
+    return view('pages/'.$something);
+});
