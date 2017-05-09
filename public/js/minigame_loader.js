@@ -73,6 +73,9 @@ Minigame.prototype.serialize = function () {
             });
             result += "]";
         }
+        else if( value instanceof Function){
+            return;
+        }
         else {
             result += "\"" + key + "\": \"" + value + "\"";
         }
