@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('evaluate', "ExamController@testExam");
+Route::post('review', "ExamController@reviewExam");
 
 Route::post('createExam', "ExamController@add");
 
@@ -28,3 +28,7 @@ Route::post('updateExam', "ExamController@update");
 Route::post('getExam', "ExamController@get");
 
 Route::post('getExams', "ExamController@listExams");
+
+Route::post('evaluate', "ExamController@evaluateExam");
+
+Route::post('saveResult', "EvaluationController@save");

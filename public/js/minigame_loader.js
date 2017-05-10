@@ -8,7 +8,7 @@ function loadMinigame(json) {
     delete minigameConf.questions;
 
     if(minigame != null){
-        minigame.save();
+        minigame.finish();
     }
     minigame = new Minigame(minigameConf);
 
@@ -34,9 +34,15 @@ function Minigame(config) {
     form.append(this.domElement);
 
     // function belonging to the object, can access instantiated functions!
-    this.save = function() {
+    this.finish = function() {
 
-        var json = _this.serialize();
+        //var json = _this.serialize();
+        var response = "";
+
+        for( var i = 1; i<qID; i++) {
+            var editor = ace.edit("question-"+i);
+            response += "\n"+editor.getValue();
+        }
 
         $.ajaxSetup({
             headers: {
@@ -46,12 +52,32 @@ function Minigame(config) {
 
         $.ajax({
             type : "POST",
-            url : "/saveminigameconf",
+            url : "/api/evaluate",
             data : {
-                mgc : json
+                id : _this.game_id,
+                student : _this.user_token,
+                response : response
             }
-        }).done(function( data ) {
-            console.log(data);
+        }).done(function( eval ) {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type : "POST",
+                url : "/api/saveResult",
+                data : {
+                    exam : _this.game_id,
+                    user : _this.user_token,
+                    grade : eval,
+                    data: response
+                }
+            }).done(function( data ) {
+                console.log(data);
+            });
         });
 
         _this.delete();
@@ -119,12 +145,15 @@ Minigame.getConfiguration = function () {
     };
 };
 
+var qID = 0;
 function Question(config) {
 
     var _this=this;
     $.each( config, function (key, value) {
         _this[key] = value;
     });
+
+    this.id = qID++;
 
     // DOM Element creation
     this.domElement = document.createElement("div");
@@ -139,7 +168,7 @@ function Question(config) {
     //input.classList.add("form-control");
     input.classList.add("ace-editor");
     input.classList.add("textarea");
-    input.setAttribute("id", this.id);
+    input.setAttribute("id", "question-"+this.id);
     //input.setAttribute("rows", "25");
     input.setAttribute("data-mode", this.lang);
     input.setAttribute("data-theme", "chrome");
@@ -178,5 +207,5 @@ Question.getConfiguration = function () {
 
 
 function submitMinigame() {
-    minigame.save();
+    minigame.finish();
 }

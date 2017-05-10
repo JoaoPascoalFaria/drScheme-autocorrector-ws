@@ -33,11 +33,6 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "hidden": false,
-                        "mandatory": true
-                    },
                     "question_text": {
                         "type": "string",
                         "form_input_type": "TEXT_INPUT",

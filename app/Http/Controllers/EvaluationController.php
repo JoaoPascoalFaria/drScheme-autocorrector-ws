@@ -2,47 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use App\Exam;
+use App\Evaluation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class ExamController extends Controller
+
+class EvaluationController extends Controller
 {
+
     /**
      * Show a list of all of the application's users.
      *
      * @return Response
      */
-    public function add( Request $request) {
+    public function save( Request $request) {
 
-        $name = $request->input("name");
-        $examb = $request->input("exam");
-        $solution = $request->input("solution");
+        $user = $request->input("user");
+        $exam = $request->input("exam");
+        $grade = $request->input("grade");
+        $data = $request->input("data");
 
-        $exam = new Exam();
-        $exam->name = $name;
-        $exam->examHash = hash( "md5", $examb);
-        $exam->solutionHash = hash( "md5", $solution);
-        $exam->save();
+        $evaluation = Evaluation::where('exam',$exam)->where('user',$user)->first();
+        if ($exam === null) {
+            $evaluation = new Evaluation();
+        }
 
-        $exam_response = file_put_contents( "files/exams/".$exam->id.".csv", $examb, LOCK_EX );
-        $solution_response = file_put_contents( "files/exams/".$exam->id.".scm", $solution, LOCK_EX );
+        $evaluation->exam = $exam;
+        $evaluation->user = $user;
+        $evaluation->grade = $grade;
+        $evaluation->submission = $data;
+        $evaluation->save();
 
-        return response('Exam added to database with id '.$exam->id, 200)->header('Content-Type', 'text/plain');
+        return response('Evaluation added to database')->header('Content-Type', 'text/plain');
     }
 
     /**
      * Show a list of all of the application's users.
      *
      * @return Response
-     */
+     *//*
     public function delete( Request $request) {
 
         $id = $request->input("id");
 
         Exam::destroy($id);
-
-        //TODO delete all files related to exam?
 
         return response('Exam deleted from database', 200)->header('Content-Type', 'text/plain');
     }
@@ -52,7 +55,7 @@ class ExamController extends Controller
      * Show a list of all of the application's users.
      *
      * @return Response
-     */
+     *//*
     public function update( Request $request) {
 
         $id = $request->input("id");
@@ -92,7 +95,7 @@ class ExamController extends Controller
      * Show a list of all of the application's users.
      *
      * @return Response
-     */
+     *//*
     public function get( Request $request) {
 
         $id = $request->input("id");
@@ -106,49 +109,5 @@ class ExamController extends Controller
 
 
         return response(json_encode($json))->header('Content-Type', 'text/plain');
-    }
-
-
-    /**
-     * @param id
-     * @param student
-     * @param response
-     * @return mixed
-     */
-    public function testExam( Request $request) {
-
-        $id = $request->input("id");
-        $student = $request->input("student");
-        $content = $request->input("response");
-
-        /*
-        $exam = Exam::find($id);
-        if ($exam === null) {
-            return response("Error at testExam in ExamController.php line 95", 200)->header('Content-Type', 'text/plain');
-        }
-
-        $content_response = file_put_contents( "files/tests/".$exam->id."_".$student.".scm", $content, LOCK_EX );
-        $output = shell_exec('java -jar java/testExam.jar files/exams/'.$exam->id." files/tests/".$exam->id."_".$student.".scm single");
-        */
-        $content_response = file_put_contents( "files/tests/".$id."_".$student.".scm", $content, LOCK_EX );
-        $output = shell_exec('java -jar java/testExam.jar files/exams/'.$id." files/tests/".$id."_".$student.".scm single");
-
-        return response($output)->header('Content-Type', 'multipart/form-data');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function listExams() {
-
-        $entries = Exam::all();
-        $exams = array();
-        foreach( $entries as $exam ) {
-
-            $exam = array( "id"=>$exam->id, "name"=>$exam->name);
-            $exams[] = $exam;
-        }
-
-        return response(json_encode($exams))->header('Content-Type', 'multipart/form-data');
-    }
+    }/**/
 }
