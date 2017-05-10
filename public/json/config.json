@@ -13,12 +13,14 @@
       "question_image_url": "",
       "skippable": "",
       "timeout": "",
+      "lang": "scheme",
       "answer_text_template": "Não sei o que é a sequência de Fibonacci"
     },{
       "question_text": "Programa que calcule o n-ésimo número primo.",
       "question_image_url": "",
       "skippable": "",
       "timeout": "",
+      "lang": "scheme",
       "answer_text_template": "nop"
     }
   ]

@@ -67,6 +67,14 @@
                         "form_description": "Time limit for the question in seconds",
                         "mandatory": false
                     },
+                    "lang": {
+                        "type": "string",
+                        "form_input_type": "TEXT_INPUT",
+                        "form_label": "Programming Language",
+                        "form_description": "language for the exercise",
+                        "hidden": false,
+                        "mandatory": true
+                    },
                     "answer_text_template": {
                         "type": "string",
                         "form_input_type": "TEXT_INPUT",

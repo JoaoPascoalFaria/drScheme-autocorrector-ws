@@ -135,11 +135,14 @@ function Question(config) {
     label.innerHTML = this.question_text;
     this.domElement.appendChild(label);
 
-    var input = document.createElement("textarea");
-    input.classList.add("form-control");
+    var input = document.createElement("div");
+    //input.classList.add("form-control");
     input.classList.add("ace-editor");
+    input.classList.add("textarea");
     input.setAttribute("id", this.id);
-    input.setAttribute("rows", "25");
+    //input.setAttribute("rows", "25");
+    input.setAttribute("data-mode", this.lang);
+    input.setAttribute("data-theme", "chrome");
     input.innerHTML = this.answer_text_template;
     this.domElement.appendChild(input);
 }
@@ -167,6 +170,7 @@ Question.getConfiguration = function () {
         "question_image_url": "",
         "skippable": "",
         "timeout": "",
+        "lang": "",
         "answer_text_template": ""
     };
 };

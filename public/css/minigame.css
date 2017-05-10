@@ -28,6 +28,14 @@ body {
     position: relative;
 }
 
+#minigame .ace-editor {
+    height: 280px !important;
+}
+
+#minigame .form-group {
+    margin-bottom: 50px;
+}
+
 #minigame input[type="text"],
 #minigame input[type="email"],
 #minigame input[type="tel"],

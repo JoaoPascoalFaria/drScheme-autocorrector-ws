@@ -27,12 +27,12 @@
     <!-- jQuery -->
     <script src="../vendor/jquery/jquery.min.js"></script>
 
-    <script src="../../js/helper.js"></script>
-    <script src="../../js/minigame_loader.js"></script>
+    <script src="../js/helper.js"></script>
+    <script src="../js/minigame_loader.js"></script>
     <!-- Ace -->
-    <script src=".../ace-builds/src-min-noconflict/ace.js" charset="utf-8"></script>
+    <script src="../assets/bower/ace-builds/src-min-noconflict/ace.js" charset="utf-8"></script>
     <!-- Ace-helper -->
-    <script src="/bower_components/ace-helper/src/ace-helper.js"></script>
+    <script src="../assets/bower/ace-helper/src/ace-helper.js"></script>
 </html>
 
 <script>
@@ -52,13 +52,32 @@
                     "question_image_url": "",
                     "skippable": "",
                     "timeout": "",
+                    "lang": "scheme",
                     "answer_text_template": "Não sei o que é a sequência de Fibonacci"
                 },{
-                    "question_text": "Programa que calcule o n-ésimo número primo.",
+                    "question_text": "Programa que calcule todos os primos até ao número n.",
                     "question_image_url": "",
                     "skippable": "",
                     "timeout": "",
-                    "answer_text_template": "nop"
+                    "lang": "scheme",
+                    "answer_text_template": "(define (isPrimeHelper x k)\n"+
+                    "(if (= x k)\n"+
+                    "#t                           ; consequent\n"+
+                    "(if (= (remainder x k) 0)    ; alternative\n"+
+                    ";; ^^ indentation\n"+
+                    "#f                               ; consequent\n"+
+                    "(isPrimeHelper x (+ k 1)))))     ; alternative\n"+
+                    "\n"+
+                    "(define (printPrimesUpTo n)\n"+
+                    "(define result '())\n"+
+                    "(define (helper x)\n"+
+                    "(if (= x (+ 1 n))\n"+
+                    "result                  ; consequent\n"+
+                    "(if (isPrime x)         ; alternative\n"+
+                    "(cons x result) ))         ; no alternative!\n"+
+                    ";; ^^ indentation\n"+
+                    "( helper (+ x 1)))\n"+
+                    "( helper 1 ))"
                 }
             ]
         }
