@@ -12,7 +12,6 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
-
         <link href="../css/minigame.css" rel="stylesheet" type="text/css">
 
     </head>
@@ -27,12 +26,19 @@
     </body>
     <!-- jQuery -->
     <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <script src="../../js/helper.js"></script>
     <script src="../../js/minigame_loader.js"></script>
+    <!-- Ace -->
+    <script src=".../ace-builds/src-min-noconflict/ace.js" charset="utf-8"></script>
+    <!-- Ace-helper -->
+    <script src="/bower_components/ace-helper/src/ace-helper.js"></script>
 </html>
 
 <script>
     loadMinigame(
         {
+            "game_id": "1",
             "displayed_game_name": "Programming",
             "lang": "en",
             "game_description": "Coding games for Dr.Scheme",
@@ -42,14 +48,12 @@
             "accessible": "false",
             "questions": [
                 {
-                    "id": "1",
                     "question_text": "Faça um programa que some a sequência de Fibonacci nas primeiras 10 iterações.",
                     "question_image_url": "",
                     "skippable": "",
                     "timeout": "",
                     "answer_text_template": "Não sei o que é a sequência de Fibonacci"
                 },{
-                    "id": "2",
                     "question_text": "Programa que calcule o n-ésimo número primo.",
                     "question_image_url": "",
                     "skippable": "",

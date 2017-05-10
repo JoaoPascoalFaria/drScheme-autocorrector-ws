@@ -52,7 +52,6 @@ function Minigame(config) {
             }
         }).done(function( data ) {
             console.log(data);
-            //loadGraph("/samples/sv_graph.json");
         });
 
         _this.delete();
@@ -109,6 +108,7 @@ Minigame.prototype.delete = function () {
 // static function, not linked to a particular instance
 Minigame.getConfiguration = function () {
     return {
+        "game_id": "",
         "displayed_game_name": "",
         "lang": "",
         "game_description": "",
@@ -137,6 +137,7 @@ function Question(config) {
 
     var input = document.createElement("textarea");
     input.classList.add("form-control");
+    input.classList.add("ace-editor");
     input.setAttribute("id", this.id);
     input.setAttribute("rows", "25");
     input.innerHTML = this.answer_text_template;
@@ -162,7 +163,6 @@ Question.prototype.delete = function () {
 
 Question.getConfiguration = function () {
     return {
-        "id": "",
         "question_text": "",
         "question_image_url": "",
         "skippable": "",
@@ -175,29 +175,4 @@ Question.getConfiguration = function () {
 
 function submitMinigame() {
     minigame.save();
-}
-
-
-function tabify(str) {
-    var result = "";
-    var counter = 0;
-    for( var i = 0; i < str.length; i++){
-        var char = str.charAt(i);
-        if(char == ']' || char =="}") {
-            counter--;
-            if(result.slice(-1) == '\t') {// avoid deleting [ when empty array
-                result = result.slice(0,-1);// delete one tab
-            }
-        }
-        result += char;
-        if(char == '[' || char == '{') {
-            counter++;
-        }
-        else if(char == '\n') {
-            for( var j = 0; j < counter; j++) {
-                result += '\t';
-            }
-        }
-    }
-    return result;
 }
