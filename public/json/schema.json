@@ -1,0 +1,124 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "displayed_game_name": {
+            "type": "string",
+            "lookup": "@displayed_game_name",
+            "mandatory": true
+        },
+        "lang": {
+            "type": "string",
+            "hidden": true,
+            "mandatory": true
+        },
+        "game_description": {
+            "type": "string",
+            "lookup": "@game_description",
+            "mandatory": false
+        },
+        "user_token": {
+            "type": "string",
+            "hidden": true,
+            "mandatory": true
+        },
+        "timeout": {
+            "type": "integer",
+            "form_label": "Game timeout",
+            "form_description": "Timeout for the enteire session",
+            "mandatory": true
+        },
+        "questions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "hidden": false,
+                        "mandatory": true
+                    },
+                    "question_text": {
+                        "type": "string",
+                        "form_input_type": "TEXT_INPUT",
+                        "form_label": "Question text",
+                        "form_description": "text for the question",
+                        "max_length": 50,
+                        "mandatory": true
+                    },
+                    "question_image_url": {
+                        "type": "string",
+                        "form_input_type": "FILE_SELECTION",
+                        "form_label": "Image for the question",
+                        "form_description": "Choose image for the question",
+                        "mandatory": false
+                    },
+                    "skippable": {
+                        "type": "boolean",
+                        "form_input_type": "BOOLEAN_SELECTION",
+                        "form_label": "Question skippable",
+                        "form_description": "Question skippable",
+                        "mandatory": false
+                    },
+                    "timeout": {
+                        "type": "integer",
+                        "form_input_type": "TEXT_INPUT",
+                        "form_label": "Time limit (s)",
+                        "form_description": "Time limit for the question in seconds",
+                        "mandatory": false
+                    },
+                    "answer_text_template": {
+                        "type": "string",
+                        "form_input_type": "TEXT_INPUT",
+                        "form_label": "question text template",
+                        "form_description": "text template for this question",
+                        "mandatory": false
+                    }
+                }
+            }
+        },
+        "pausable": {
+            "type": "boolean",
+            "form_input_type": "BOOLEAN_SELECTION",
+            "form_label": "Game pausable?",
+            "form_description": "tells if the game is pausable",
+            "mandatory": false
+        },
+        "accessible": {
+            "type": "boolean",
+            "form_label": "Accessibility of the game",
+            "form_description": "Accessibility of the game",
+            "lookup": "@isAccessible",
+            "readonly": true
+        },
+        "analytics": {
+            "type": "object",
+            "properties": {
+                "correct_answers": {
+                    "type": "boolean",
+                    "form_input_type": "BOOLEAN_SELECTION",
+                    "form_label": "correct answers",
+                    "form_description": "track the number of correct answers?"
+                },
+                "elapsed_time": {
+                    "type": "boolean",
+                    "form_input_type": "BOOLEAN_SELECTION",
+                    "form_label": "correct answers",
+                    "form_description": "track the total elapsed time for quiz?"
+                },
+                "wrong_answers": {
+                    "type": "boolean",
+                    "form_input_type": "BOOLEAN_SELECTION",
+                    "form_label": "wrong answers",
+                    "form_description": "track the number of wrong answers?"
+                },
+                "skipped_answers": {
+                    "type": "boolean",
+                    "form_input_type": "BOOLEAN_SELECTION",
+                    "form_label": "skipped answers",
+                    "form_description": "track the number of skipped answers?"
+                }
+            }
+        }
+    }
+}

@@ -16,6 +16,8 @@ function loadMinigame(json) {
 
         minigame.addQuestion(questionConf);
     });
+
+    form.append($.parseHTML("<button onclick='submitMinigame()'>Submit</button>"));
 }
 
 function Minigame(config) {
@@ -26,6 +28,10 @@ function Minigame(config) {
     });
 
     this.questions = [];
+
+    // DOM Element creation
+    this.domElement = $.parseHTML("<h3>"+this.displayed_game_name+"</h3><h4>"+this.game_description+"</h4>");
+    form.append(this.domElement);
 
     // function belonging to the object, can access instantiated functions!
     this.save = function() {
@@ -49,13 +55,16 @@ function Minigame(config) {
             //loadGraph("/samples/sv_graph.json");
         });
 
-        minigame = null;
+        _this.delete();
     };
 }
 
 // functions shared by all Minigames, doesn't know constructor fields (prototypes)
 Minigame.prototype.addQuestion = function (config) {
-    this.questions.push(new Question(config));
+
+    var q = new Question(config);
+    this.questions.push(q);
+    form.append(q.domElement);
 };
 
 Minigame.prototype.serialize = function () {
@@ -88,6 +97,15 @@ Minigame.prototype.serialize = function () {
     return tabify(result);
 };
 
+Minigame.prototype.delete = function () {
+
+    this.questions.forEach( function (question, index) {
+        question.delete();
+    });
+    $(this.domElement).remove();
+    minigame = null;
+};
+
 // static function, not linked to a particular instance
 Minigame.getConfiguration = function () {
     return {
@@ -107,6 +125,22 @@ function Question(config) {
     $.each( config, function (key, value) {
         _this[key] = value;
     });
+
+    // DOM Element creation
+    this.domElement = document.createElement("div");
+    this.domElement.classList.add("form-group");
+
+    var label = document.createElement("label");
+    label.setAttribute("for", this.id);
+    label.innerHTML = this.question_text;
+    this.domElement.appendChild(label);
+
+    var input = document.createElement("textarea");
+    input.classList.add("form-control");
+    input.setAttribute("id", this.id);
+    input.setAttribute("rows", "25");
+    input.innerHTML = this.answer_text_template;
+    this.domElement.appendChild(input);
 }
 
 Question.prototype.serialize = function () {
@@ -121,6 +155,11 @@ Question.prototype.serialize = function () {
     return result;
 };
 
+Question.prototype.delete = function () {
+
+    $(this.domElement).remove();
+};
+
 Question.getConfiguration = function () {
     return {
         "id": "",
@@ -132,6 +171,11 @@ Question.getConfiguration = function () {
     };
 };
 
+
+
+function submitMinigame() {
+    minigame.save();
+}
 
 
 function tabify(str) {
