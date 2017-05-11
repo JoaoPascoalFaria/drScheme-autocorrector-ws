@@ -14,13 +14,14 @@ class Evaluations extends Migration
     public function up()
     {
         Schema::create('evaluations', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('exam');
             $table->string('user');
             $table->string('grade');
             $table->string('submission');
             $table->rememberToken();
             $table->timestamps();
-            $table->primary(array('exam', 'user'));
+            //$table->primary(array('exam', 'user'));
         });
     }
 

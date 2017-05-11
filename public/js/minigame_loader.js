@@ -59,25 +59,23 @@ function Minigame(config) {
                 response : response
             }
         }).done(function( eval ) {
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $.ajax({
-                type : "POST",
-                url : "/api/saveResult",
-                data : {
-                    exam : _this.game_id,
-                    user : _this.user_token,
-                    grade : eval,
-                    data: response
-                }
-            }).done(function( data ) {
-                console.log(data);
-            });
+            if ($.isNumeric(eval)) {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/saveResult",
+                    data: {
+                        user: _this.user_token,
+                        exam: _this.game_id,
+                        grade: eval,
+                        submission: response
+                    }
+                }).done(function (data) {
+                    console.log(data);
+                });
+            }
+            else {
+                console.log(eval);
+            }
         });
 
         _this.delete();

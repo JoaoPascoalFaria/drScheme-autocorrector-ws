@@ -63,7 +63,7 @@ class ExamController extends Controller
 
         $exam = Exam::find($id);
         if ($exam === null) {
-            return response("Error at testExam in ExamController.php line 95", 200)->header('Content-Type', 'text/plain');
+            return response("Error at ".__FUNCTION__." in ".basename(__FILE__)." at line ".__LINE__, 200)->header('Content-Type', 'text/plain');
         }
 
         $response = "Exam updated.";
@@ -100,7 +100,7 @@ class ExamController extends Controller
 
         $exam = Exam::find($id);
         if ($exam === null) {
-            return response("Error at testExam in ExamController.php line 95", 200)->header('Content-Type', 'text/plain');
+            return response("Error at ".__FUNCTION__." in ".basename(__FILE__)." at line ".__LINE__, 200)->header('Content-Type', 'text/plain');
         }
 
         $json = array( "id"=>$exam->id, "name"=>$exam->name, "exam"=>file_get_contents('files/exams/'.$exam->id.'.csv') ,"solution"=>file_get_contents('files/exams/'.$exam->id.'.scm') );
@@ -125,7 +125,7 @@ class ExamController extends Controller
 
         $exam = Exam::find($id);
         if ($exam === null) {
-            return response("Error at testExam in ExamController.php line 95", 200)->header('Content-Type', 'text/plain');
+            return response("Error at ".__FUNCTION__." in ".basename(__FILE__)." at line ".__LINE__, 200)->header('Content-Type', 'text/plain');
         }
         /*
         $content_response = file_put_contents( "files/tests/".$exam->id."_".$student.".scm", $content, LOCK_EX );
@@ -168,7 +168,7 @@ class ExamController extends Controller
 
         $exam = Exam::find($id);
         if ($exam === null) {
-            return response("Error at testExam in ExamController.php line 95", 200)->header('Content-Type', 'text/plain');
+            return response("Error at ".__FUNCTION__." in ".basename(__FILE__)." at line ".__LINE__.". Exam not found", 200)->header('Content-Type', 'text/plain');
         }
 
         /*

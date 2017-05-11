@@ -32,3 +32,9 @@ Route::post('getExams', "ExamController@listExams");
 Route::post('evaluate', "ExamController@evaluateExam");
 
 Route::post('saveResult', "EvaluationController@save");
+
+Route::post('getGrade', "EvaluationController@get");
+
+Route::post('getSheet', "EvaluationController@getSheet");
+
+Route::post('getBestSheet', "EvaluationController@getSheetPlus");
