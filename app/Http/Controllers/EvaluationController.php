@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Evaluation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use DB;
+use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\DB;
 
 
 class EvaluationController extends Controller
@@ -65,7 +66,7 @@ class EvaluationController extends Controller
 
         $exam = $request->input("exam");
 
-        $evaluation = Evaluation::where('exam',"=",$exam)->orderBy('created_at', 'desc')->groupBy('user')->get();
+        $evaluation = DB::select("select exam, user, grade, max(created_at) as SubmitedAt from evaluations where exam = :exam group by exam, user", ['exam' => $exam]);
         if( $evaluation === null) {
             return response("Error at ".__FUNCTION__." in ".basename(__FILE__)." at line ".__LINE__.". No evaluations found", 200)->header('Content-Type', 'text/plain');
         }
@@ -82,8 +83,7 @@ class EvaluationController extends Controller
 
         $exam = $request->input("exam");
 
-
-        $evaluation = DB::select(DB::raw("SELECT t1.* FROM evaluations t1 JOIN (SELECT user, MAX(grade) FROM evaluations GROUP BY user) t2 ON t1.user = t2.user AND t1.grade = t2.grade"));
+        $evaluation = DB::select("select exam, user, max(grade) as MaxGrade from evaluations where exam = :exam group by exam, user", ['exam' => $exam]);
         //$evaluation = Evaluation::where('exam',"=",$exam)->orderBy('grade', 'desc')->groupBy('user')->get();
         if( $evaluation === null) {
             return response("Error at ".__FUNCTION__." in ".basename(__FILE__)." at line ".__LINE__.". No evaluations found", 200)->header('Content-Type', 'text/plain');
