@@ -17,7 +17,7 @@ function loadMinigame(json) {
         minigame.addQuestion(questionConf);
     });
 
-    form.append($.parseHTML("<button onclick='submitMinigame()'>Submit</button>"));
+    form.append($.parseHTML("<button onclick='submitMinigame()'>End Exam</button>"));
 }
 
 function Minigame(config) {
