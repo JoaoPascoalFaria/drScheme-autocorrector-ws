@@ -11,13 +11,13 @@ function loadMinigame(json) {
         minigame.finish();
     }
     minigame = new Minigame(minigameConf);
-
+console.log(json.questions);
     json.questions.forEach( function (questionConf, i1) {
 
         minigame.addQuestion(questionConf);
     });
 
-    form.append($.parseHTML("<button onclick='submitMinigame()'>End Exam</button>"));
+    form.append($.parseHTML("<button type='button' onclick='submitMinigame()'>End Exam</button>"));
 }
 
 function Minigame(config) {
@@ -34,7 +34,7 @@ function Minigame(config) {
     form.append(this.domElement);
 
     // function belonging to the object, can access instantiated functions!
-    this.finish = function() {
+    this.finishExam = function() {
 
         //var json = _this.serialize();
         var response = "";
@@ -71,6 +71,7 @@ function Minigame(config) {
                     }
                 }).done(function (data) {
                     console.log(data);
+                    window.location.replace('/acknowledgement');
                 });
             }
             else {
@@ -79,6 +80,7 @@ function Minigame(config) {
         });
 
         _this.delete();
+        $("#minigame").html("<h3 style='text-align: center;'> Submitting exam, please wait. </h3>");
     };
 }
 
@@ -205,5 +207,6 @@ Question.getConfiguration = function () {
 
 
 function submitMinigame() {
-    minigame.finish();
+    if (confirm("Finish Exam?"))
+        minigame.finishExam();
 }

@@ -18,15 +18,18 @@ class ExamController extends Controller
 
         $name = $request->input("name");
         $examb = $request->input("exam");
+        $wording = $request->input("wording");
         $solution = $request->input("solution");
 
         $exam = new Exam();
         $exam->name = $name;
         $exam->examHash = hash( "md5", $examb);
+        $exam->wordingHash = hash( "md5", $wording);
         $exam->solutionHash = hash( "md5", $solution);
         $exam->save();
 
         $exam_response = file_put_contents( "files/exams/".$exam->id.".csv", $examb, LOCK_EX );
+        $wording_response = file_put_contents( "files/exams/".$exam->id.".json", $wording, LOCK_EX );
         $solution_response = file_put_contents( "files/exams/".$exam->id.".scm", $solution, LOCK_EX );
 
         return response('Exam added to database with id '.$exam->id, 200)->header('Content-Type', 'text/plain');
@@ -59,6 +62,7 @@ class ExamController extends Controller
         $id = $request->input("id");
         $name = $request->input("name");
         $examb = $request->input("exam");
+        $wording = $request->input("wording");
         $solution = $request->input("solution");
 
         $exam = Exam::find($id);
@@ -69,13 +73,20 @@ class ExamController extends Controller
         $response = "Exam updated.";
 
         $exam->name = $name;
-        $newEHash = hash("md5",$examb);
-        $newSHash = hash("md5",$solution);
+        $newEHash = hash("md5", $examb);
+        $newWHash = hash("md5", $wording);
+        $newSHash = hash("md5", $solution);
         if( $exam->examHash != $newEHash ) {
 
             $response .= " Updated exam.";
             $exam->examHash = $newEHash;
             $exam_response = file_put_contents( "files/exams/".$id.".csv", $examb, LOCK_EX );
+        }
+        if( $exam->wordingHash != $newWHash ) {
+
+            $response .= " Updated wording.";
+            $exam->wordingHash = $newWHash;
+            $wording_response = file_put_contents( "files/exams/".$id.".json", $wording, LOCK_EX );
         }
         if( $exam->solutionHash != $newSHash ) {
 
@@ -103,10 +114,10 @@ class ExamController extends Controller
             return response("Error at ".__FUNCTION__." in ".basename(__FILE__)." at line ".__LINE__, 200)->header('Content-Type', 'text/plain');
         }
 
-        $json = array( "id"=>$exam->id, "name"=>$exam->name, "exam"=>file_get_contents('files/exams/'.$exam->id.'.csv') ,"solution"=>file_get_contents('files/exams/'.$exam->id.'.scm') );
+        $json = array( "id"=>$exam->id, "name"=>$exam->name, "exam"=>file_get_contents('files/exams/'.$exam->id.'.csv'), "wording"=>file_get_contents('files/exams/'.$exam->id.'.json'), "solution"=>file_get_contents('files/exams/'.$exam->id.'.scm') );
 
 
-        return response(json_encode($json))->header('Content-Type', 'text/plain');
+        return response(json_encode($json))->header('Content-Type', 'multipart/form-data');
     }
 
 

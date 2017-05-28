@@ -15,12 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('play/exam', function (){
-    return view('minigame');
+Route::get('play/{exam}/{student}', function ($exam, $student){
+    return view('minigame', ['exam' => $exam, 'student' => $student]);
 });
 
 Route::get('dashboard', function (){
     return view('dashboard');
+});
+
+Route::get('acknowledgement', function (){
+    return view('acknowledgement');
 });
 
 Route::get('{something}', function ($something){
