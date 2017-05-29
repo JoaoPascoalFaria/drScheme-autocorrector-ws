@@ -56,8 +56,9 @@
             data.wording = JSON.parse(data.wording);
             data.wording.user_token = "<?php echo $student; ?>";
             loadMinigame( data.wording);
+            AceHelper.init();
         });
-    }/**/
+    };/**/
     /*window.onload = function() {
     loadMinigame(
      {

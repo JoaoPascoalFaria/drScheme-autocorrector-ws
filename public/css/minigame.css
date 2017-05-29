@@ -46,6 +46,8 @@ body {
 }
 
 #minigame {
+    border: 1px solid #485e28;
+    border-radius: 3px;
     background: #F9F9F9;
     padding: 25px;
     margin: 150px 0;

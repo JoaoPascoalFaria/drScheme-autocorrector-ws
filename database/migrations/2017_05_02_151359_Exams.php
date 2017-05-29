@@ -19,6 +19,7 @@ class Exams extends Migration
             $table->string('examHash');
             $table->string('wordingHash');
             $table->string('solutionHash');
+            $table->integer('timeLimit');
             $table->rememberToken();
             $table->timestamps();
         });

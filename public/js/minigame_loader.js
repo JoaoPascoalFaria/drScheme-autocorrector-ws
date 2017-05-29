@@ -9,7 +9,7 @@ function loadMinigame(json) {
     delete minigameConf.questions;
 
     if(minigame != null){
-        minigame.finish();
+        minigame.finishExam();
     }
     minigame = new Minigame(minigameConf);
 

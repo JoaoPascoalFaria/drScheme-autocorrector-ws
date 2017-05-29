@@ -215,6 +215,7 @@ class DatabaseSeeder extends Seeder
             'examHash' => hash( "md5", $exam),
             'wordingHash' => hash( "md5", $wording),
             'solutionHash' => hash( "md5", $solution),
+            'timeLimit' => 1800000,//30 min 1000 * 60 * 30
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -223,6 +224,7 @@ class DatabaseSeeder extends Seeder
             'examHash' => hash( "md5", ""),
             'wordingHash' => hash( "md5", "Quanto é 1+1? a) 0 b) 1 c) 2 d) 3"),
             'solutionHash' => hash( "md5", "b"),
+            'timeLimit' => 1800000,//30 min 1000 * 60 * 30
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);

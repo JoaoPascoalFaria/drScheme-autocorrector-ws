@@ -20,12 +20,14 @@ class ExamController extends Controller
         $examb = $request->input("exam");
         $wording = $request->input("wording");
         $solution = $request->input("solution");
+        $timelimit = $request->input("timelimit");
 
         $exam = new Exam();
         $exam->name = $name;
         $exam->examHash = hash( "md5", $examb);
         $exam->wordingHash = hash( "md5", $wording);
         $exam->solutionHash = hash( "md5", $solution);
+        $exam->timeLimit = $timelimit;
         $exam->save();
 
         $exam_response = file_put_contents( "files/exams/".$exam->id.".csv", $examb, LOCK_EX );
@@ -64,6 +66,7 @@ class ExamController extends Controller
         $examb = $request->input("exam");
         $wording = $request->input("wording");
         $solution = $request->input("solution");
+        $timelimit = $request->input("timelimit");
 
         $exam = Exam::find($id);
         if ($exam === null) {
@@ -73,6 +76,7 @@ class ExamController extends Controller
         $response = "Exam updated.";
 
         $exam->name = $name;
+        $exam->timeLimit = $timelimit;
         $newEHash = hash("md5", $examb);
         $newWHash = hash("md5", $wording);
         $newSHash = hash("md5", $solution);
@@ -114,7 +118,7 @@ class ExamController extends Controller
             return response("Error at ".__FUNCTION__." in ".basename(__FILE__)." at line ".__LINE__, 200)->header('Content-Type', 'text/plain');
         }
 
-        $json = array( "id"=>$exam->id, "name"=>$exam->name, "exam"=>file_get_contents('files/exams/'.$exam->id.'.csv'), "wording"=>file_get_contents('files/exams/'.$exam->id.'.json'), "solution"=>file_get_contents('files/exams/'.$exam->id.'.scm') );
+        $json = array( "id"=>$exam->id, "name"=>$exam->name, "timelimit"=>$exam->timeLimit, "exam"=>file_get_contents('files/exams/'.$exam->id.'.csv'), "wording"=>file_get_contents('files/exams/'.$exam->id.'.json'), "solution"=>file_get_contents('files/exams/'.$exam->id.'.scm') );
 
 
         return response(json_encode($json))->header('Content-Type', 'multipart/form-data');
