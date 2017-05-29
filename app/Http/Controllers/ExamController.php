@@ -130,7 +130,7 @@ class ExamController extends Controller
     public function reviewExam( Request $request) {
 
         $id = $request->input("id");
-        $student = $request->input("student");
+        $student = str_replace(" ","_",strtolower($request->input("student")));
         $content = $request->input("response");
 
 
@@ -173,7 +173,7 @@ class ExamController extends Controller
     public function evaluateExam( Request $request) {
 
         $id = $request->input("id");
-        $student = $request->input("student");
+        $student = str_replace(" ","_",strtolower($request->input("student")));
         $content = $request->input("response");
 
 

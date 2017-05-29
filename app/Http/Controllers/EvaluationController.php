@@ -19,10 +19,11 @@ class EvaluationController extends Controller
      */
     public function save( Request $request) {
 
-        $user = $request->input("user");
+        $user = str_replace(" ","_",strtolower($request->input("user")));
         $exam = $request->input("exam");
         $grade = $request->input("grade");
         $data = $request->input("submission");
+        $timelapse = $request->input("timelapse");
 
         //$evaluation = Evaluation::where('exam',"=",$exam)->where('user',"=",$user)->orderBy('created_at', 'desc')->first();
 
@@ -31,6 +32,7 @@ class EvaluationController extends Controller
         $evaluation->user = $user;
         $evaluation->grade = $grade;
         $evaluation->submission = $data;
+        $evaluation->timelapse = $timelapse;
 
         $evaluation->save();
 
@@ -45,7 +47,7 @@ class EvaluationController extends Controller
      */
     public function get( Request $request) {
 
-        $user = $request->input("user");
+        $user = str_replace(" ","_",strtolower($request->input("user")));
         $exam = $request->input("exam");
 
         $evaluation = Evaluation::where('exam',"=",$exam)->where('user',"=",$user)->orderBy('created_at', 'desc')->first();
@@ -66,7 +68,7 @@ class EvaluationController extends Controller
 
         $exam = $request->input("exam");
 
-        $evaluation = DB::select("select exam, user, grade, max(created_at) as SubmitedAt from evaluations where exam = :exam group by exam, user", ['exam' => $exam]);
+        $evaluation = DB::select("select exam, user, grade, timelapse, max(created_at) as SubmitedAt from evaluations where exam = :exam group by exam, user", ['exam' => $exam]);
         if( $evaluation === null) {
             return response("Error at ".__FUNCTION__." in ".basename(__FILE__)." at line ".__LINE__.". No evaluations found", 200)->header('Content-Type', 'text/plain');
         }
@@ -83,7 +85,7 @@ class EvaluationController extends Controller
 
         $exam = $request->input("exam");
 
-        $evaluation = DB::select("select exam, user, max(grade) as MaxGrade from evaluations where exam = :exam group by exam, user", ['exam' => $exam]);
+        $evaluation = DB::select("select exam, user, max(grade) as MaxGrade, timelapse from evaluations where exam = :exam group by exam, user", ['exam' => $exam]);
         //$evaluation = Evaluation::where('exam',"=",$exam)->orderBy('grade', 'desc')->groupBy('user')->get();
         if( $evaluation === null) {
             return response("Error at ".__FUNCTION__." in ".basename(__FILE__)." at line ".__LINE__.". No evaluations found", 200)->header('Content-Type', 'text/plain');

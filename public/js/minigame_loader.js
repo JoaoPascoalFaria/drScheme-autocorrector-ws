@@ -1,6 +1,7 @@
 
 var form = $("#minigame");
 var minigame = null;
+var initialTime = null;
 
 function loadMinigame(json) {
 
@@ -11,13 +12,19 @@ function loadMinigame(json) {
         minigame.finish();
     }
     minigame = new Minigame(minigameConf);
-console.log(json.questions);
+
     json.questions.forEach( function (questionConf, i1) {
 
         minigame.addQuestion(questionConf);
     });
 
     form.append($.parseHTML("<button type='button' onclick='submitMinigame()'>End Exam</button>"));
+
+    initialTime = Date.now();
+    $("body").append($.parseHTML("<div style='position: fixed; top: 15px; left: 15px; width: 250px; height: 40px; background-color: #BADA55; border: 1px solid #374f27; border-radius: 15px;' id='chronometer'></div>div>"));
+    window.setInterval(function () {
+        $("#chronometer").html($.parseHTML("<p style='text-align: center; font-size: 30px; padding: 5px;'>"+timelapseToTime(Date.now()-initialTime)+"</p>"));
+    }, 1000);
 }
 
 function Minigame(config) {
@@ -36,6 +43,7 @@ function Minigame(config) {
     // function belonging to the object, can access instantiated functions!
     this.finishExam = function() {
 
+        var finalTime = Date.now();
         //var json = _this.serialize();
         var response = "";
 
@@ -67,7 +75,8 @@ function Minigame(config) {
                         user: _this.user_token,
                         exam: _this.game_id,
                         grade: eval,
-                        submission: response
+                        submission: response,
+                        timelapse: finalTime-initialTime
                     }
                 }).done(function (data) {
                     console.log(data);
@@ -209,4 +218,16 @@ Question.getConfiguration = function () {
 function submitMinigame() {
     if (confirm("Finish Exam?"))
         minigame.finishExam();
+}
+
+function timelapseToTime (ms) {
+    var x = Math.trunc(ms / 1000);
+    var seconds = x % 60;
+    x = Math.trunc( x/60);
+    var minutes = x % 60;
+    x = Math.trunc(x/60);
+    var hours = x % 24;
+    x = Math.trunc(x/24);
+    var days = x;
+    return (days>0?days+"d ":"")+(days>0||hours>0?hours+"h ":"")+(days>0||hours>0||minutes>0?minutes+"m ":"")+seconds+"s";
 }

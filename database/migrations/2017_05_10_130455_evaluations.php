@@ -19,6 +19,7 @@ class Evaluations extends Migration
             $table->string('user');
             $table->integer('grade');
             $table->string('submission');
+            $table->integer('timelapse');
             $table->rememberToken();
             $table->timestamps();
             //$table->primary(array('exam', 'user'));
