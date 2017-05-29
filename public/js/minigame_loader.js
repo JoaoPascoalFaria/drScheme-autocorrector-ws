@@ -22,7 +22,7 @@ function loadMinigame(json) {
     form.append($.parseHTML("<button type='button' onclick='submitMinigame()'>End Exam</button>"));
 
     initialTime = Date.now();
-    $("body").append($.parseHTML("<div style='position: fixed; top: 15px; left: 15px; width: 250px; height: 40px; background-color: #BADA55; border: 1px solid #374f27; border-radius: 15px;' id='chronometer'></div>div>"));
+    $("body").append($.parseHTML("<div style='position: fixed; top: 15px; left: 15px; width: 250px; height: 40px; background-color: #BADA55; border: 1px solid #374f27; border-radius: 15px; z-index: 4;' id='chronometer'></div>div>"));
     window.setInterval(function () {
         $("#chronometer").html($.parseHTML("<p style='text-align: center; font-size: 30px; padding: 5px;'>"+timelapseToTime(Date.now()-initialTime)+"</p>"));
     }, 1000);
