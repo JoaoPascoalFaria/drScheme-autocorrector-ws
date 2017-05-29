@@ -23,3 +23,16 @@ function tabify(str) {
     }
     return result;
 }
+
+
+function timelapseToTime (ms) {
+    var x = Math.trunc(ms / 1000);
+    var seconds = x % 60;
+    x = Math.trunc( x/60);
+    var minutes = x % 60;
+    x = Math.trunc(x/60);
+    var hours = x % 24;
+    x = Math.trunc(x/24);
+    var days = x;
+    return (days>0?days+"d ":"")+(days>0||hours>0?hours+"h ":"")+(days>0||hours>0||minutes>0?minutes+"m ":"")+seconds+"s";
+}

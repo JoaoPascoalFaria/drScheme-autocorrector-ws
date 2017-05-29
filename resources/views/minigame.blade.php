@@ -12,6 +12,7 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
+        <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="/css/minigame.css" rel="stylesheet" type="text/css">
 
     </head>
@@ -23,9 +24,28 @@
                 </form>
             </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog" style="display: none; margin: auto;">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="text-align: center;">Testing solution</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p style="text-align: center;">Please wait..</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default disabled" data-dismiss="modal" style="margin: 0 auto; display: block;">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
+
     <!-- jQuery -->
     <script src="/vendor/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/vendor/bootstrap/js/bootstrap.js"></script>
 
     <script src="/js/helper.js"></script>
     <script src="/js/minigame_loader.js"></script>

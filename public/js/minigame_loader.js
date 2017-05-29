@@ -18,6 +18,7 @@ function loadMinigame(json) {
         minigame.addQuestion(questionConf);
     });
 
+    form.append($.parseHTML("<button type='button' onclick='testMinigame()'>Test Exam</button>"));
     form.append($.parseHTML("<button type='button' onclick='submitMinigame()'>End Exam</button>"));
 
     initialTime = Date.now();
@@ -91,6 +92,51 @@ function Minigame(config) {
         _this.delete();
         $("#minigame").html("<h3 style='text-align: center;'> Submitting exam, please wait. </h3>");
     };
+    
+    this.testSolution = function () {
+
+        var response = "";
+        for( var i = 1; i<qID; i++) {
+            var editor = ace.edit("question-"+i);
+            response += "\n"+editor.getValue();
+        }
+
+        //$("#myModal").modal('show');
+        $("#myModal").modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+        $("#myModal p").html("Please wait..");
+        $("#myModal button").get(0).classList.add("disabled");
+        $("#myModal button").get(0).disabled = true;
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type : "POST",
+            url : "/api/evaluate",
+            data : {
+                id : _this.game_id,
+                student : _this.user_token,
+                response : response
+            }
+        }).done(function( eval ) {
+
+            var msg;
+            if( eval < 100) {
+                msg = "The answer is incorrect";
+            }
+            else
+                msg = "The answer is correct";
+
+            $("#myModal p").html(msg);
+            $("#myModal button").get(0).classList.remove("disabled");
+            $("#myModal button").get(0).disabled = false;
+        });
+    }
 }
 
 // functions shared by all Minigames, doesn't know constructor fields (prototypes)
@@ -213,21 +259,11 @@ Question.getConfiguration = function () {
     };
 };
 
-
+function testMinigame() {
+    minigame.testSolution();
+}
 
 function submitMinigame() {
     if (confirm("Finish Exam?"))
         minigame.finishExam();
-}
-
-function timelapseToTime (ms) {
-    var x = Math.trunc(ms / 1000);
-    var seconds = x % 60;
-    x = Math.trunc( x/60);
-    var minutes = x % 60;
-    x = Math.trunc(x/60);
-    var hours = x % 24;
-    x = Math.trunc(x/24);
-    var days = x;
-    return (days>0?days+"d ":"")+(days>0||hours>0?hours+"h ":"")+(days>0||hours>0||minutes>0?minutes+"m ":"")+seconds+"s";
 }
