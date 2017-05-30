@@ -38,3 +38,9 @@ Route::post('getGrade', "EvaluationController@get");
 Route::post('getSheet', "EvaluationController@getSheet");
 
 Route::post('getBestSheet', "EvaluationController@getSheetPlus");
+
+Route::post('addGame', 'GameController@add');
+Route::post('deleteGame', 'GameController@delete');
+Route::post('updateGame', 'GameController@update');
+Route::post('getGame', 'GameController@get');
+Route::post('listGames', 'GameController@getAll');

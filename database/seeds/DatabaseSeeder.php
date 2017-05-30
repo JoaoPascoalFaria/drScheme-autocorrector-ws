@@ -209,6 +209,55 @@ class DatabaseSeeder extends Seeder
         ;(altera 28756 111111111)
         ;(altera 2875624726358724687485 11010101001010101111)
         ";
+        $xml = "<invicta>
+	<game>
+		<checkpoints>
+			<checkpoint pointId=\"1\" lon=\"41.177589\" lat=\"-8.594659\" image=\"Rose\" name=\"Biblioteca\">
+				<challenges>
+					<challenge type=\"narrative\">
+						<narrative value=\"   O início da sua construção data da primeira metade do século XII, e prolongou-se até ao princípio do século XIII. Esse primeiro edifício, em estilo românico, sofreu muitas alterações ao longo dos séculos. Da época românica datam o carácter geral da fachada com as torres e a bela rosácea, além do corpo da igreja de três naves coberto por abóbada de canhão. A abóbada da nave central é sustentada por arcobotantes, sendo a Sé do Porto um dos primeiros edifícios portugueses em que se utilizou esse elemento arquitectónico.
+
+   Na época gótica, cerca do ano de 1333, construiu-se a capela funerária de João Gordo, cavaleiro da Ordem dos Hospitalários e colaborador de D. Dinis, sepultado em um túmulo com jacente. Também da época gótica data o claustro (séc XIV-XV), construído no reinado de D. João I. Este rei casou-se com D. Filipa de Lencastre na Sé do Porto em 1387.
+
+   O exterior da Sé foi muito modificado na época barroca. Cerca de 1736, o arquitecto italiano Nicolau Nasoni adicionou uma bela galilé barroca à fachada lateral da Sé. Cerca de 1772 construiu-se um novo portal em substituição ao românico original. As balaustradas e cúpulas das torres também são barrocas.\"/>
+					</challenge>
+					
+					<challenge type=\"webchallenge\">
+            <webchallenge value=\"http://drscheme-autocorrector-ws.dev/play/1\">
+						</webchallenge>
+					</challenge>
+					
+					<challenge type=\"question\">
+						<question value=\"Qual é o melhor refeitório da FEUP?\" url=\"http://drscheme-autocorrector-ws.dev/api/saveResult\">
+              <answer value=\"Cantina\" isCorrect=\"false\"/>
+              <answer value=\"Cafetaria\" isCorrect=\"true\"/>
+              <answer value=\"Grill\" isCorrect=\"false\"/>
+              <answer value=\"INEGI/IDMEC\" isCorrect=\"false\"/>
+						</question>
+					</challenge>
+				</challenges>
+			</checkpoint>
+			<checkpoint pointId=\"2\" lon=\"41.177677\" lat=\"-8.595727\" image=\"Rose\" name=\"Queijos\">
+				<challenges>
+					<challenge type=\"narrative\">
+						<narrative value=\"   A Torre dos Clérigos é uma torre sineira que faz parte da Igreja dos Clérigos e está situada na cidade do Porto, Portugal. É um monumento considerado por muitos[quem?] o ex libris da cidade do Porto.
+
+   A torre foi construída entre 1754 e 1763 com projecto do italiano Nicolau Nasoni sob encomenda de Dom Jerónimo de Távora Noronha Leme e Cernache a pedido da Irmandade dos Clérigos Pobres. O seu arquitecto, Nicolau Nasoni, contribuiu durante muitos anos para a construção da grande torre dos clérigos sem receber nada em troca e só alguns anos depois isso aconteceu.
+
+   Está classificada pelo IPPAR como Monumento Nacional desde 19101 .\"/>
+					</challenge>
+				</challenges>
+			</checkpoint>
+			<checkpoint pointId=\"3\" lon=\"41.178231\" lat=\"-8.597666\" image=\"Rose\" name=\"Auditório A\">
+				<challenges>
+					<challenge type=\"narrative\">
+						<narrative value=\"O atual nome da praça é uma homenagem a Carlos Alberto, rei do Piemonte e da Sardenha, que, destronado do seu trono em 1849, buscou refúgio na cidade do Porto, tendo como primeira aposentadoria o Palacete dos Viscondes de Balsemão, localizado nesta praça.\"/>
+					</challenge>
+				</challenges>
+			</checkpoint>
+		</checkpoints>
+	</game>
+</invicta>";
 
         DB::table('exams')->insert([
             'name' => "Sample exam",
@@ -258,6 +307,12 @@ class DatabaseSeeder extends Seeder
             'grade' => "100",
             'submission' => "b",
             'timelapse' => "0",
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        DB::table('games')->insert([
+            'name' => "Invicta sample",
+            'gameXML' => $xml,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
