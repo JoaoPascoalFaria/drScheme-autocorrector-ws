@@ -22,6 +22,25 @@ class GameController extends Controller
         return response('Game added to database with id '.$game->id, 200)->header('Content-Type', 'text/plain');
     }
 
+    public function addOrUpdate( Request $request) {
+
+        $name = $request->input("name");
+        $xml = $request->input("gameXML");
+
+        // these allow game override in case of the same NAME is given
+        $game = Game::where('name',"=",$name);
+        if( $game === null) {
+            $game = new Game();
+        }
+
+        //$game = new Game();
+        $game->name = $name;
+        $game->gameXML = $xml;
+        $game->save();
+
+        return response('Game added to database with id '.$game->id, 200)->header('Content-Type', 'text/plain');
+    }
+
     public function delete( Request $request) {
 
         $id = $request->input("id");
