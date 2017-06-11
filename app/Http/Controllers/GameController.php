@@ -28,7 +28,7 @@ class GameController extends Controller
         $xml = $request->input("gameXML");
 
         // these allow game override in case of the same NAME is given
-        $game = Game::where('name',"=",$name);
+        $game = Game::where('name',"=",$name)->first();
         if( $game === null) {
             $game = new Game();
         }
