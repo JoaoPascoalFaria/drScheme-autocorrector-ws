@@ -30,6 +30,6 @@ class Games extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('evaluations');
+        Schema::dropIfExists('games');
     }
 }
