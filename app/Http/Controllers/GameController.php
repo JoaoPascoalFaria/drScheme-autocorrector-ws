@@ -37,7 +37,8 @@ class GameController extends Controller
         $game->name = $name;
         $game->gameXML = $xml;
         $game->save();
-
+        
+        header('Access-Control-Allow-Origin: *');
         return response('Game added to database with id '.$game->id, 200)->header('Content-Type', 'text/plain');
     }
 
