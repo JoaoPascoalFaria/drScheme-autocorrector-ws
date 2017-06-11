@@ -27,6 +27,8 @@ Route::get('acknowledgement', function (){
     return view('acknowledgement');
 });
 
+Route::get('getGame', "GameController@downloadGame");
+
 Route::get('{something}', function ($something){
     return view('pages/'.$something);
 });

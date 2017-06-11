@@ -37,7 +37,7 @@ class GameController extends Controller
         $game->name = $name;
         $game->gameXML = $xml;
         $game->save();
-        
+
         header('Access-Control-Allow-Origin: *');
         return response('Game added to database with id '.$game->id, 200)->header('Content-Type', 'text/plain');
     }
@@ -96,5 +96,23 @@ class GameController extends Controller
         }
 
         return response(json_encode($games))->header('Content-Type', 'multipart/form-data');
+    }
+
+    public function downloadGame() {
+        $file = "files/Invicta_2.0.apk";
+
+        if (file_exists($file)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="'.basename($file).'"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file));
+            readfile($file);
+            exit;
+        }
+        else
+            echo "Error, no apk found";
     }
 }
