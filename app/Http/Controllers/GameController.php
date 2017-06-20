@@ -19,6 +19,8 @@ class GameController extends Controller
         $game->gameXML = $xml;
         $game->save();
 
+        //header('Access-Control-Allow-Origin: *');
+        header_remove ('Access-Control-Allow-Origin');
         return response('Game added to database with id '.$game->id, 200)->header('Content-Type', 'text/plain');
     }
 
@@ -38,7 +40,8 @@ class GameController extends Controller
         $game->gameXML = $xml;
         $game->save();
 
-        header('Access-Control-Allow-Origin: *');
+        //header('Access-Control-Allow-Origin: *');
+        header_remove ('Access-Control-Allow-Origin');
         return response('Game added to database with id '.$game->id, 200)->header('Content-Type', 'text/plain');
     }
 
@@ -67,6 +70,8 @@ class GameController extends Controller
         $game->gameXML = $xml;
         $game->save();
 
+        //header('Access-Control-Allow-Origin: *');
+        header_remove ('Access-Control-Allow-Origin');
         return response("Exam updated successfully", 200)->header('Content-Type', 'text/plain');
     }
 
@@ -82,7 +87,7 @@ class GameController extends Controller
 
         $json = array( "id"=>$game->id, "name"=>$game->name, "gameXML"=>$game->gameXML, "creationDate"=>$game->created_at );
 
-        return response(json_encode($json))->header('Content-Type', 'multipart/form-data');
+        return response(json_encode($json))->header('Content-Type', 'multipart/form-data')->header('Access-Control-Allow-Origin','*');
     }
 
     public function getAll() {
