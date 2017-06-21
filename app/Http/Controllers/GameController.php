@@ -20,8 +20,8 @@ class GameController extends Controller
         $game->save();
 
         //header('Access-Control-Allow-Origin: *');
-        header_remove ('Access-Control-Allow-Origin');
-        return response('Game added to database with id '.$game->id, 200)->header('Content-Type', 'text/plain');
+        //header_remove ('Access-Control-Allow-Origin');
+        return response('Game added to database with id '.$game->id, 200)->header('Content-Type', 'text/plain')->header('Access-Control-Allow-Origin','*');
     }
 
     public function addOrUpdate( Request $request) {
@@ -41,8 +41,8 @@ class GameController extends Controller
         $game->save();
 
         //header('Access-Control-Allow-Origin: *');
-        header_remove ('Access-Control-Allow-Origin');
-        return response('Game added to database with id '.$game->id, 200)->header('Content-Type', 'text/plain');
+        //header_remove ('Access-Control-Allow-Origin');
+        return response('Game added to database with id '.$game->id, 200)->header('Content-Type', 'text/plain')->header('Access-Control-Allow-Origin','*');
     }
 
     public function delete( Request $request) {
@@ -71,8 +71,8 @@ class GameController extends Controller
         $game->save();
 
         //header('Access-Control-Allow-Origin: *');
-        header_remove ('Access-Control-Allow-Origin');
-        return response("Exam updated successfully", 200)->header('Content-Type', 'text/plain');
+        //header_remove ('Access-Control-Allow-Origin');
+        return response("Exam updated successfully", 200)->header('Content-Type', 'text/plain')->header('Access-Control-Allow-Origin','*');
     }
 
 
