@@ -34,8 +34,7 @@ class ExamController extends Controller
         $wording_response = file_put_contents( "files/exams/".$exam->id.".json", $wording, LOCK_EX );
         $solution_response = file_put_contents( "files/exams/".$exam->id.".scm", $solution, LOCK_EX );
 
-        //header('Access-Control-Allow-Origin: *');
-        return response('Exam added to database with id '.$exam->id, 200)->header('Content-Type', 'text/plain')->header('Access-Control-Allow-Origin','*');
+        return response('Exam added to database with id '.$exam->id, 200)->header('Content-Type', 'text/plain');
     }
 
     /**
@@ -71,8 +70,7 @@ class ExamController extends Controller
 
         $exam = Exam::find($id);
         if ($exam === null) {
-            //header('Access-Control-Allow-Origin: *');
-            return response("Error at ".__FUNCTION__." in ".basename(__FILE__)." at line ".__LINE__, 200)->header('Content-Type', 'text/plain')->header('Access-Control-Allow-Origin','*');
+            return response("Error at ".__FUNCTION__." in ".basename(__FILE__)." at line ".__LINE__, 200)->header('Content-Type', 'text/plain');
         }
 
         $response = "Exam updated.";
@@ -102,8 +100,7 @@ class ExamController extends Controller
         }
         $exam->save();
 
-        //header('Access-Control-Allow-Origin: *');
-        return response($response, 200)->header('Content-Type', 'text/plain')->header('Access-Control-Allow-Origin','*');
+        return response($response, 200)->header('Content-Type', 'text/plain');
     }
 
 
@@ -124,8 +121,7 @@ class ExamController extends Controller
 
         $json = array( "id"=>$exam->id, "name"=>$exam->name, "timelimit"=>$exam->timeLimit, "exam"=>file_get_contents('files/exams/'.$exam->id.'.csv'), "wording"=>file_get_contents('files/exams/'.$exam->id.'.json'), "solution"=>file_get_contents('files/exams/'.$exam->id.'.scm') );
 
-        //header('Access-Control-Allow-Origin: *');
-        return response(json_encode($json))->header('Content-Type', 'multipart/form-data')->header('Access-Control-Allow-Origin','*');
+        return response(json_encode($json))->header('Content-Type', 'multipart/form-data');
     }
 
 
